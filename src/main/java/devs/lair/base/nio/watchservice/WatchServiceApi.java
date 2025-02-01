@@ -9,18 +9,7 @@ public class WatchServiceApi {
         //Целевая директория
         Path watchDir = Paths.get("./src/main/java/devs/lair/base/nio/watchservice/watchdir");
 
-        //Проверка директории
-        if (!Files.exists(watchDir)) {
-            System.out.println("Не найдена директория " + watchDir);
-            return;
-        }
-
-        if (!Files.isDirectory(watchDir)) {
-            System.out.println("Работает только с файлом" + watchDir);
-            return;
-        }
-
-        try (WatchService watchService = FileSystems.getDefault().newWatchService()){
+        try (WatchService watchService = FileSystems.getDefault().newWatchService()) {
             //Регистрируем
             watchDir.register(watchService,
                     StandardWatchEventKinds.ENTRY_CREATE,
@@ -51,6 +40,7 @@ public class WatchServiceApi {
                 //!! Обязтальено ресетим ключ
                 boolean valid = key.reset();
                 if (!valid) {
+                    System.out.println("Not valid");
                     return;
                 }
             }
